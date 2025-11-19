@@ -22,13 +22,13 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErroMessageDTO>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+    public ResponseEntity<List<ErrorMessageDTO>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
 
-        List<ErroMessageDTO> dto = new ArrayList<>();
+        List<ErrorMessageDTO> dto = new ArrayList<>();
 
         ex.getBindingResult().getFieldErrors().forEach(err -> {
             String message = messageSource.getMessage(err, LocaleContextHolder.getLocale());
-            ErroMessageDTO error = new ErroMessageDTO(message,err.getField());
+            ErrorMessageDTO error = new ErrorMessageDTO(message,err.getField());
             dto.add(error);
         });
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
