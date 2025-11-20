@@ -1,4 +1,4 @@
-package br.com.leandrocoelho.gestao_vagas;
+package br.com.leandrocoelho.gestaovagas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GestaoVagasApplicationTests {
 
     @Test
-    void contextLoads() {
+    void contextLoads() { //
     }
 
 }

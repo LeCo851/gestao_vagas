@@ -1,4 +1,4 @@
-package br.com.leandrocoelho.gestao_vagas.exceptions;
+package br.com.leandrocoelho.gestaovagas.exceptions;
 
 
 import org.springframework.context.MessageSource;
