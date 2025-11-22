@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
+
 
 @Service
 public class AuthCompanyUseCase {
@@ -33,14 +36,14 @@ public class AuthCompanyUseCase {
 
         );
 
-        // verificar se senha é igual
-       var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
+        var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
 
-       if(!passwordMatches){
+        if(!passwordMatches){
           throw new BadCredentialsException("Company/password incorrect");
        }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         return  JWT.create().withIssuer("javagas") // retorna o token
+                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
                 .withSubject(company.getId().toString())
                 .sign(algorithm);
 

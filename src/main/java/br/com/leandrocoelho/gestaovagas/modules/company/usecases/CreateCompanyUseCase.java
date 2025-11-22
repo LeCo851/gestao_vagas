@@ -20,8 +20,6 @@ public class CreateCompanyUseCase {
 
     }
 
-
-
     public CompanyEntity execute(CompanyEntity companyEntity){
         this.companyRepository
                 .findByUsernameOrEmail(companyEntity.getUsername(),companyEntity.getEmail())
