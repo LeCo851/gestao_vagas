@@ -1,5 +1,5 @@
 package br.com.leandrocoelho.gestaovagas.modules.company.entities;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -30,6 +31,8 @@ public class CompanyEntity {
     private String email;
 
     @Length(min = 10, max=100, message = "O campo deve conter entre 10 e 100 caracteres")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // melhores práticas para que a senha não vaze em json ou possa ser usado em metodos toString
+    @ToString.Exclude
     private String password;
 
     private String website;

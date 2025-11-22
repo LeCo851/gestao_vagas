@@ -1,6 +1,6 @@
 package br.com.leandrocoelho.gestaovagas.modules.candidate.controller;
 
-import br.com.leandrocoelho.gestaovagas.modules.candidate.CandidateEntity;
+import br.com.leandrocoelho.gestaovagas.modules.candidate.entities.CandidateEntity;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.CreateCandidateUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
