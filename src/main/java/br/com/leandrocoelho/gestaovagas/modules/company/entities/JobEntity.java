@@ -2,8 +2,10 @@ package br.com.leandrocoelho.gestaovagas.modules.company.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,9 @@ import java.util.UUID;
 
 @Data
 @Entity(name = "job")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobEntity {
 
     @Id
@@ -27,7 +32,6 @@ public class JobEntity {
     private CompanyEntity companyEntity;
 
     @Column(name = "company_id", nullable = false)
-    @NotNull
     private UUID companyID;
 
     @CreationTimestamp

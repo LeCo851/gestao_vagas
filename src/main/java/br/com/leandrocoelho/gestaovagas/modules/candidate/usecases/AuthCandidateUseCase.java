@@ -1,0 +1,58 @@
+package br.com.leandrocoelho.gestaovagas.modules.candidate.usecases;
+
+import br.com.leandrocoelho.gestaovagas.modules.candidate.controller.CandidateRepository;
+import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.AuthCandidateRequestDTO;
+import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.AuthCandidateResponseDTO;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+
+@Service
+public class AuthCandidateUseCase {
+
+    @Value("${security.token.secret.candidate}")
+    private String secretKey;
+
+    private final CandidateRepository candidateRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+
+    public AuthCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder){
+        this.candidateRepository = candidateRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO authCandidateRequestDTO) throws AuthenticationException{
+        var candidate = this.candidateRepository.findByUsername(authCandidateRequestDTO.username())
+                .orElseThrow(() -> new BadCredentialsException("Username/Password incorrect"));
+
+        var passwordMatches = this.passwordEncoder
+                .matches(authCandidateRequestDTO.password(), candidate.getPassword());
+
+        if(!passwordMatches){
+            throw new BadCredentialsException("Username/Password incorrect") {
+            };
+        }
+
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        var token = JWT.create()
+                .withIssuer("javagas")
+                .withSubject(candidate.getId().toString())
+                .withClaim("roles", Arrays.asList("candidate"))
+                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(10)))
+                .sign(algorithm);
+
+        return AuthCandidateResponseDTO.builder()
+                .accessToken(token)
+                .build();
+    }
+}
