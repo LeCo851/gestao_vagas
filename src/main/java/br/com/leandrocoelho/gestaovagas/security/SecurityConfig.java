@@ -2,6 +2,7 @@ package br.com.leandrocoelho.gestaovagas.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,24 +11,37 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final SecurityFilter securityFilter;
+    private final SecurityCandidateFilter securityCandidateFilter;
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+    };
 
-    public SecurityConfig(SecurityFilter securityFilter){
+
+    public SecurityConfig(SecurityFilter securityFilter, SecurityCandidateFilter securityCandidateFilter){
         this.securityFilter = securityFilter;
+        this.securityCandidateFilter = securityCandidateFilter;
     }
 
     @Bean // usada para indicar que um metodo é utilizado para sobreecrever um metodo original do spring
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(CsrfConfigurer::disable)  // "::" referência do metodo, pois o lambda apenas chamava o proprio metodo
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/candidate/**").permitAll()
-                            .requestMatchers("/company/**").permitAll()
-                            .requestMatchers("/auth/company").permitAll();
+                    auth.requestMatchers(SWAGGER_LIST).permitAll()
+                            .requestMatchers("/candidate/").permitAll()
+                            .requestMatchers("/company/").permitAll()
+                            .requestMatchers("/company/auth").permitAll()
+                            .requestMatchers("/candidate/auth").permitAll();
+
                     auth.anyRequest().authenticated();
 
                 })
+                .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
 
         return  http.build();
