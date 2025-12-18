@@ -1,4 +1,4 @@
-package br.com.leandrocoelho.gestaovagas.modules.candidate.controller;
+package br.com.leandrocoelho.gestaovagas.modules.candidate.repository;
 
 import br.com.leandrocoelho.gestaovagas.modules.candidate.entities.CandidateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

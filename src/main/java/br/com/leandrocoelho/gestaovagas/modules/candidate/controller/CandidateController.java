@@ -2,6 +2,7 @@ package br.com.leandrocoelho.gestaovagas.modules.candidate.controller;
 
 import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.entities.CandidateEntity;
+import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.ApplyJobCandidateUseCase;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.CreateCandidateUseCase;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.ListAllJobsByFilterUseCase;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.ProfileCandidateUseCase;
@@ -34,6 +35,7 @@ public class CandidateController {
     private final CreateCandidateUseCase createCandidateUseCase;
     private final ProfileCandidateUseCase profileCandidateUseCase;
     private final ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
+    private final ApplyJobCandidateUseCase applyJobCandidateUseCase;
 
     @PostMapping("/")
     @Operation(summary = "Criar Perfil do candidato", description = "Função responsável por criar perfil do candidato")
@@ -89,5 +91,22 @@ public class CandidateController {
     @SecurityRequirement(name = "jwt_auth")
     public List<JobEntity> findJobByFilter(@RequestParam String filter){
         return this.listAllJobsByFilterUseCase.execute(filter);
+    }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Inscrição do candidato para uma vaga", description = "Essa função é responsável por realizar a inscrição do candidato em uma vaga")
+    @SecurityRequirement(name = "jwt_auth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID idjob){
+
+        var idCandidate = request.getAttribute("candidate_id");
+
+        try {
+            var result = this.applyJobCandidateUseCase.execute(UUID.fromString(idCandidate.toString()),idjob);
+            return ResponseEntity.ok().body(result);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

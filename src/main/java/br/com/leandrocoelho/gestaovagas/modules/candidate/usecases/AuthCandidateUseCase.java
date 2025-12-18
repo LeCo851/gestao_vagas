@@ -1,6 +1,6 @@
 package br.com.leandrocoelho.gestaovagas.modules.candidate.usecases;
 
-import br.com.leandrocoelho.gestaovagas.modules.candidate.controller.CandidateRepository;
+import br.com.leandrocoelho.gestaovagas.modules.candidate.repository.CandidateRepository;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.AuthCandidateResponseDTO;
 import com.auth0.jwt.JWT;
