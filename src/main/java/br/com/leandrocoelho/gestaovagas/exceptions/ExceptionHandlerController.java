@@ -33,4 +33,23 @@ public class ExceptionHandlerController {
         });
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<Object> handleCompanyNotFoundException(CompanyNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(JobNotFoundException.class)
+    public ResponseEntity<Object> handleJobNotFoundException(JobNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    @ExceptionHandler(UserFoundException.class)
+    public ResponseEntity<Object> handleUserFoundException(UserFoundException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
 }

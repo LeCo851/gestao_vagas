@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI OpenAPI(){
+    public OpenAPI openAPI(){
         return new OpenAPI()
                 .info(new Info().title("Gestão de vagas").description("API responsável pela gestão de vagas").version("1"))
                 .schemaRequirement("jwt_auth",createSecurityScheme());

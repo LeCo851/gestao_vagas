@@ -7,8 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,6 +16,9 @@ import java.util.UUID;
 
 @Data
 @Entity(name = "company")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CompanyEntity {
 
     @Id

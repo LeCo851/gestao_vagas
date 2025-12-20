@@ -4,7 +4,6 @@ import br.com.leandrocoelho.gestaovagas.modules.company.dto.CreateJobDTO;
 import br.com.leandrocoelho.gestaovagas.modules.company.entities.JobEntity;
 import br.com.leandrocoelho.gestaovagas.modules.company.usecases.CreateJobUseCase;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -48,7 +47,7 @@ public class JobController {
             JobEntity.builder()
                     .benefits(createJobDTO.getBenefits())
                     .companyID(UUID.fromString(companyID.toString()))
-                    .description(createJobDTO.getBenefits())
+                    .description(createJobDTO.getDescription())
                     .level(createJobDTO.getLevel())
                     .build();
 
