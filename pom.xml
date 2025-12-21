@@ -32,7 +32,7 @@
 
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-        <sonar.projectKey>leco851_gestao_vagas</sonar.projectKey>
+        <sonar.projectKey>LeCo851_gestao_vagas</sonar.projectKey>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/site/jacoco/jacoco.xml
