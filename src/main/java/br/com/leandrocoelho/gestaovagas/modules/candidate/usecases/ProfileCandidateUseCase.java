@@ -1,8 +1,8 @@
 package br.com.leandrocoelho.gestaovagas.modules.candidate.usecases;
 
+import br.com.leandrocoelho.gestaovagas.exceptions.UserNotFoundException;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.repository.CandidateRepository;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.ProfileCandidateResponseDTO;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,7 +19,7 @@ public class ProfileCandidateUseCase {
     public ProfileCandidateResponseDTO execute(UUID idCandidate){
 
         var candidate =  this.candidateRepository.findById(idCandidate)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
 
         return ProfileCandidateResponseDTO.builder()
                 .description(candidate.getDescription())

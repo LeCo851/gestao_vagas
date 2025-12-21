@@ -5,7 +5,6 @@ import br.com.leandrocoelho.gestaovagas.modules.company.entities.JobEntity;
 import br.com.leandrocoelho.gestaovagas.modules.company.repositories.CompanyRepository;
 import br.com.leandrocoelho.gestaovagas.modules.company.repositories.JobRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

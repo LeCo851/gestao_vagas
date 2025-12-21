@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Service
@@ -49,7 +50,7 @@ public class AuthCompanyUseCase {
         var token =  JWT.create().withIssuer("javagas") // retorna o token
                 .withExpiresAt(expiresIn)
                 .withSubject(company.getId().toString())
-                .withClaim("roles", Arrays.asList("COMPANY"))
+                .withClaim("roles", List.of("COMPANY"))
                 .sign(algorithm);
         
         return AuthCompanyResponseDTO.builder()
