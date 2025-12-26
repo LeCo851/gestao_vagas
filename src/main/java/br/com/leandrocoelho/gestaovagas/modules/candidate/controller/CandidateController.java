@@ -1,5 +1,6 @@
 package br.com.leandrocoelho.gestaovagas.modules.candidate.controller;
 
+import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.CreateCandidateDTO;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.entities.CandidateEntity;
 import br.com.leandrocoelho.gestaovagas.modules.candidate.usecases.ApplyJobCandidateUseCase;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +44,11 @@ public class CandidateController {
                     @Content(schema = @Schema(implementation = CandidateEntity.class))
             })
     @ApiResponse(responseCode = "400",description = "Usuário já existe")
-    public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateCandidateDTO createCandidateDTO) {
         try {
+            var candidateEntity = new CandidateEntity();
+            BeanUtils.copyProperties(createCandidateDTO, candidateEntity);
+
             var result =  this.createCandidateUseCase.execute(candidateEntity);
             return ResponseEntity.ok().body(result);
 
