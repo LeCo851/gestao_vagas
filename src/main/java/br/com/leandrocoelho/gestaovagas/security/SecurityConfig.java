@@ -16,10 +16,12 @@ public class SecurityConfig {
 
     private final SecurityCompanyFilter securityCompanyFilter;
     private final SecurityCandidateFilter securityCandidateFilter;
-    private static final String[] SWAGGER_LIST = {
+    private static final String[] PERMIT_ALL_LIST = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
+            "/actuator/**",
+            "/admin/**"
     };
 
 
@@ -32,7 +34,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(CsrfConfigurer::disable)  // "::" referência do metodo, pois o lambda apenas chamava o proprio metodo
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(SWAGGER_LIST).permitAll()
+                    auth.requestMatchers(PERMIT_ALL_LIST).permitAll()
                             .requestMatchers("/candidate/").permitAll()
                             .requestMatchers("/company/").permitAll()
                             .requestMatchers("/company/auth").permitAll()
